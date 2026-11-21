@@ -1,0 +1,22 @@
+/**
+ * Generic JSON-LD injection component.
+ *
+ * Server component — renders in SSG/ISR output.
+ * Use this to inject any JSON-LD schema into a page.
+ */
+
+interface JsonLdProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any> | Record<string, any>[] | null;
+}
+
+export function JsonLd({ data }: JsonLdProps) {
+  if (!data) return null;
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
