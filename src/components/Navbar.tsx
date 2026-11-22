@@ -264,7 +264,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     href="/signup"
-                    className="text-sm font-medium px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                    className="text-sm font-medium px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors"
                   >
                     Sign up
                   </Link>

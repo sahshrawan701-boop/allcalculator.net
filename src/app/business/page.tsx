@@ -92,28 +92,29 @@ export default function BusinessCalculatorsPage() {
 
           <aside className="xl:sticky xl:top-24 xl:self-start space-y-6">
             {/* Featured from other categories */}
-            <div className="mt-8 bg-slate-50 dark:bg-slate-900 border-[1px] border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm hover:shadow-lg dark:shadow-none">
-              <h3 className="text-base font-semibold text-slate-800 dark:text-slate-100 mb-4">
+            <div className="mt-8 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+              <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-3.5 flex items-center gap-2">
+                <i className="fas fa-fire text-amber-500 text-xs" aria-hidden="true" />
                 Also Popular
               </h3>
-              <ul className="space-y-2.5">
-                {FEATURED_LINKS.map((link, i) => (
+              <ul className="space-y-2">
+                {FEATURED_LINKS.map((link) => (
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className={`animate-fade-in-up delay-${Math.min((i % 10) * 30, 300)} flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-950/50 shadow-sm hover:shadow-lg dark:shadow-none rounded-xl border-[1.5px] border-gray-200 dark:border-gray-700 text-slate-800 dark:text-slate-100 text-sm font-medium hover:border-blue-400 dark:hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent transition-all duration-150 group`}
+                      className="group flex items-center justify-between px-3.5 py-2.5 bg-slate-50/70 dark:bg-slate-800/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/30 rounded-xl border border-slate-100/90 dark:border-slate-800/60 hover:border-indigo-200/80 dark:hover:border-indigo-800/60 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 text-xs sm:text-sm font-medium transition-all duration-150"
                     >
                       <span className="flex items-center gap-2.5 min-w-0">
                         <i
-                          className={`fas ${link.icon} text-blue-500 text-xs flex-shrink-0`}
+                          className={`fas ${link.icon} text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-xs flex-shrink-0 transition-colors`}
                           aria-hidden="true"
                         />
-                        <span className="truncate text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-400">
+                        <span className="truncate">
                           {link.label}
                         </span>
                       </span>
                       <i
-                        className="fas fa-arrow-right text-xs text-slate-300 dark:text-slate-600 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all duration-150 flex-shrink-0 ml-2"
+                        className="fas fa-arrow-right text-xs text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all duration-150 flex-shrink-0 ml-2"
                         aria-hidden="true"
                       />
                     </Link>

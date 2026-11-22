@@ -52,7 +52,7 @@ export default function LoginPage() {
             </Link>
           </p>
         </div>
-        
+
         {error && (
           <div className="bg-red-50 text-red-500 p-3 rounded-lg text-sm text-center">
             {error}
@@ -107,9 +107,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:shadow-md hover:-translate-y-0.5 disabled:opacity-70"
+              className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:shadow-md hover:-translate-y-0.5 disabled:opacity-70"
             >
-              {loading ? "Logging in..." : "Log in"} <i className="fas fa-arrow-right text-xs opacity-80" />
+              {loading ? "Logging in..." : "Log in"}{" "}
+              <i className="fas fa-arrow-right text-xs opacity-80" />
             </button>
           </div>
         </form>

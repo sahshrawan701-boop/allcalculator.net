@@ -219,11 +219,11 @@ export default function SitemapPage() {
                       className={`w-7 h-7 rounded-lg ${cat.bg} border ${cat.border} flex items-center justify-center flex-shrink-0`}
                     >
                       <i
-                        className={`fas ${c.icon} text-xs text-blue-500 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-500`}
+                        className={`fas ${c.icon} text-xs text-[#0000FF] dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-500`}
                       />
                     </div>
 
-                    <span className="text-sm text-blue-500 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 hover:underline transition-colors font-medium">
+                    <span className="text-sm text-[#0000FF] underline dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 hover:underline transition-colors font-medium">
                       {c.name}
                     </span>
 
@@ -260,7 +260,7 @@ export default function SitemapPage() {
                   const url = getStateCalculatorUrl({ state, template: calc });
                   // Convert absolute URL to relative path for the Link component
                   const path = new URL(url).pathname;
-                  
+
                   return (
                     <Link
                       key={`${state.id}-${calc.id}`}

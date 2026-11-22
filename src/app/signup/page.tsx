@@ -65,7 +65,7 @@ export default function SignupPage() {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+              className="font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-500 transition-colors"
             >
               Log in instead
             </Link>
@@ -143,9 +143,10 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all hover:shadow-md hover:-translate-y-0.5 disabled:opacity-70"
+              className="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-all hover:shadow-md hover:-translate-y-0.5 disabled:opacity-70"
             >
-              {loading ? "Signing up..." : "Sign up"} <i className="fas fa-arrow-right text-xs opacity-80" />
+              {loading ? "Signing up..." : "Sign up"}{" "}
+              <i className="fas fa-arrow-right text-xs opacity-80" />
             </button>
           </div>
 
