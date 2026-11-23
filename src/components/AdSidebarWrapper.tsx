@@ -1,13 +1,19 @@
 "use client";
 
+import React from "react";
 import { usePathname } from "next/navigation";
 import GoogleAdSidebar from "@/components/GoogleAdSidebar";
 
-export default function AdSidebarWrapper({ children }: { children: React.ReactNode }) {
+export default function AdSidebarWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
-  const isHomePage = pathname === "/";
+  const isExcluded =
+    pathname === "/" || pathname === "/login" || pathname === "/signup";
 
-  if (isHomePage) {
+  if (isExcluded) {
     return <>{children}</>;
   }
 

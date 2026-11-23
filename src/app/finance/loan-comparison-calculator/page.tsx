@@ -32,7 +32,10 @@ export default function Page() {
             </h1>
 
             <p className="mt-3 text-slate-800 dark:text-slate-100 max-w-3xl">
-              The Loan Comparison Calculator allows you to compare multiple loan options side by side. Evaluate interest rates, monthly payments, total repayment costs, and loan terms to choose the most cost-effective borrowing solution.
+              The Loan Comparison Calculator allows you to compare multiple loan
+              options side by side. Evaluate interest rates, monthly payments,
+              total repayment costs, and loan terms to choose the most
+              cost-effective borrowing solution.
             </p>
           </header>
         </div>

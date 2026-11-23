@@ -137,16 +137,17 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
   const pathname = usePathname();
 
   return (
-    <aside className={`
+    <aside
+      className={`
       w-64 flex-shrink-0
       border-r border-slate-100 dark:border-slate-800
       flex flex-col
       sticky top-0 h-screen overflow-y-auto
       bg-white dark:bg-slate-950
       scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800
-      ${className || ''}
-    `}>
-
+      ${className || ""}
+    `}
+    >
       {/* ——— Brand header ——— */}
       <Link
         href="/math/algebra-calculator"
@@ -158,7 +159,8 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
         "
       >
         {/* Icon */}
-        <div className="
+        <div
+          className="
           w-9 h-9 rounded-xl flex-shrink-0
           bg-gradient-to-br from-violet-600 to-indigo-600
           dark:from-violet-500 dark:to-indigo-500
@@ -167,7 +169,8 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
           shadow-sm shadow-violet-200 dark:shadow-violet-950
           group-hover:shadow-md group-hover:shadow-violet-200 dark:group-hover:shadow-violet-900
           transition-shadow duration-200
-        ">
+        "
+        >
           ∑
         </div>
 
@@ -182,7 +185,10 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
         </div>
 
         {/* Chevron */}
-        <i className="fas fa-chevron-right text-[9px] text-slate-300 dark:text-slate-600 ml-auto flex-shrink-0 group-hover:text-slate-400 transition-colors" aria-hidden="true" />
+        <i
+          className="fas fa-chevron-right text-[9px] text-slate-300 dark:text-slate-600 ml-auto flex-shrink-0 group-hover:text-slate-400 transition-colors"
+          aria-hidden="true"
+        />
       </Link>
 
       {/* ——— Operations list grouped ——— */}
@@ -191,20 +197,22 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
           const groupOps = opKeys.filter((k) => opDefs[k].group === group.key);
           return (
             <div key={group.key} className="mb-1">
-
               {/* Group label */}
-              <div className="
+              <div
+                className="
                 px-3 py-2 mb-0.5
                 text-[10px] font-semibold tracking-[0.1em] uppercase
                 text-slate-400 dark:text-slate-500
-              ">
+              "
+              >
                 {group.label}
               </div>
 
               {/* Group items */}
               {groupOps.map((op) => {
                 const d = opDefs[op];
-                const isActive = pathname === d.route || pathname === d.route + "/";
+                const isActive =
+                  pathname === d.route || pathname === d.route + "/";
 
                 return (
                   <Link
@@ -215,27 +223,34 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
                       relative flex items-center gap-3 px-3 py-2.5 rounded-xl
                       text-sm font-medium w-full
                       transition-all duration-150 group/item
-                      ${isActive
-                        ? "bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300"
-                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-100"
+                      ${
+                        isActive
+                          ? "bg-violet-50 dark:bg-violet-950/50 text-violet-700 dark:text-violet-300"
+                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900 hover:text-slate-900 dark:hover:text-slate-100"
                       }
                     `}
                   >
                     {/* Active left indicator */}
                     {isActive && (
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-violet-500 dark:bg-violet-400" aria-hidden="true" />
+                      <span
+                        className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-violet-500 dark:bg-violet-400"
+                        aria-hidden="true"
+                      />
                     )}
 
                     {/* Icon chip */}
-                    <div className={`
+                    <div
+                      className={`
                       w-7 h-7 rounded-lg flex-shrink-0 flex items-center justify-center
                       text-sm font-mono leading-none
                       transition-colors duration-150
-                      ${isActive
-                        ? "bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-300"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover/item:bg-slate-200 dark:group-hover/item:bg-slate-700 group-hover/item:text-slate-700 dark:group-hover/item:text-slate-300"
+                      ${
+                        isActive
+                          ? "bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-300"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover/item:bg-slate-200 dark:group-hover/item:bg-slate-700 group-hover/item:text-slate-700 dark:group-hover/item:text-slate-300"
                       }
-                    `}>
+                    `}
+                    >
                       {d.icon}
                     </div>
 
@@ -245,14 +260,17 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
                     </span>
 
                     {/* Badge */}
-                    <span className={`
+                    <span
+                      className={`
                       flex-shrink-0 text-[10px] font-mono px-1.5 py-0.5 rounded-md
                       transition-colors duration-150
-                      ${isActive
-                        ? "bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400"
-                        : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 group-hover/item:bg-slate-200 dark:group-hover/item:bg-slate-700"
+                      ${
+                        isActive
+                          ? "bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400"
+                          : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 group-hover/item:bg-slate-200 dark:group-hover/item:bg-slate-700"
                       }
-                    `}>
+                    `}
+                    >
                       {d.badge}
                     </span>
                   </Link>
@@ -264,10 +282,12 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
       </nav>
 
       {/* ——— Footer ——— */}
-      <div className="
+      <div
+        className="
         px-5 py-4 mt-auto flex-shrink-0
         border-t border-slate-100 dark:border-slate-800
-      ">
+      "
+      >
         <Link
           href="/math"
           className="
@@ -281,7 +301,6 @@ export default function AlgebraSidebar({ className }: { className?: string }) {
           All Math Calculators
         </Link>
       </div>
-
     </aside>
   );
 }

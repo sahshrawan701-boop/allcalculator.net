@@ -98,7 +98,10 @@ export default function SalaryCalculatorPage() {
             {/* Featured from other categories */}
             <div className="mt-8 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
               <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-3.5 flex items-center gap-2">
-                <i className="fas fa-fire text-amber-500 text-xs" aria-hidden="true" />
+                <i
+                  className="fas fa-fire text-amber-500 text-xs"
+                  aria-hidden="true"
+                />
                 Also Popular
               </h3>
               <ul className="space-y-2">
@@ -106,19 +109,37 @@ export default function SalaryCalculatorPage() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group flex items-center justify-between px-3.5 py-2.5 bg-slate-50/70 dark:bg-slate-800/40 hover:bg-indigo-50/50 dark:hover:bg-indigo-950/30 rounded-xl border border-slate-100/90 dark:border-slate-800/60 hover:border-indigo-200/80 dark:hover:border-indigo-800/60 text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 text-xs sm:text-sm font-medium transition-all duration-150"
+                      className="group flex items-center justify-between px-3.5 py-2.5
+    bg-[#F8FAFC] dark:bg-[#0F172A]/70
+    hover:bg-[#F8FAFF] dark:hover:bg-[#172554]
+    rounded-xl
+    border border-[#E2E8F0] dark:border-[#1E293B]/60
+    hover:border-[#CBD5E1] dark:hover:border-[#334155]
+    text-[#0000FF] dark:text-[#93A8FF]
+    hover:text-[#0000CC] dark:hover:text-[#B4C2FF]
+    text-xs sm:text-sm font-medium
+    transition-all duration-150"
                     >
                       <span className="flex items-center gap-2.5 min-w-0">
                         <i
-                          className={`fas ${link.icon} text-slate-400 dark:text-slate-500 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-xs flex-shrink-0 transition-colors`}
+                          className={`fas ${link.icon}
+        text-[#0000FF] dark:text-[#93A8FF]
+        group-hover:text-[#0000CC] dark:group-hover:text-[#B4C2FF]
+        text-xs flex-shrink-0 transition-colors`}
                           aria-hidden="true"
                         />
-                        <span className="truncate">
+
+                        <span className="truncate hover:underline">
                           {link.label}
                         </span>
                       </span>
+
                       <i
-                        className="fas fa-arrow-right text-xs text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all duration-150 flex-shrink-0 ml-2"
+                        className="fas fa-arrow-right text-xs
+      text-[#0000FF] dark:text-[#93A8FF]
+      group-hover:text-[#0000CC] dark:group-hover:text-[#B4C2FF]
+      group-hover:translate-x-0.5
+      transition-all duration-150 flex-shrink-0 ml-2"
                         aria-hidden="true"
                       />
                     </Link>

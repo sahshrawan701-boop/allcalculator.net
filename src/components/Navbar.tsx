@@ -255,7 +255,7 @@ export default function Navbar() {
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 border-r border-slate-200 dark:border-slate-800 pr-3">
+                <div className="flex items-center gap-4 border-r border-slate-200 dark:border-slate-800 pr-3">
                   <Link
                     href="/login"
                     className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
@@ -264,7 +264,7 @@ export default function Navbar() {
                   </Link>
                   <Link
                     href="/signup"
-                    className="text-sm font-medium px-3 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                    className="text-sm font-medium px-3 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white transition-colors"
                   >
                     Sign up
                   </Link>

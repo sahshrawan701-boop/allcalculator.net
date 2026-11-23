@@ -1,4 +1,3 @@
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
@@ -11,8 +10,8 @@ import { OrganizationSchema, GlobalBreadcrumbs } from "@/components/seo";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SavedCalculatorProvider } from "@/contexts/SavedCalculatorContext";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
-import GoogleAdBanner from "@/components/GoogleAdBanner";
 import GlobalTopBanner from "@/components/GlobalTopBanner";
+import GlobalBottomBanner from "@/components/GlobalBottomBanner";
 import { Providers } from "@/components/Providers";
 
 const poppins = Poppins({
@@ -100,6 +99,7 @@ export default function RootLayout({
         <link rel="shortcut icon" href="/favicon.svg" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+        {/* Google AdSense Script */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9144878288998314"
@@ -119,12 +119,10 @@ export default function RootLayout({
                       id="main-content"
                       className="flex-1 min-w-0 w-full flex flex-col"
                     >
-                      {/* <GlobalTopBanner /> */}
                       <GlobalBreadcrumbs />
+                      {/* <GlobalTopBanner /> */}
                       {children}
-                      {/* <div className="mt-auto px-4 sm:px-8 max-w-[1400px] mx-auto w-full">
-                      <GoogleAdBanner />
-                    </div> */}
+                      {/* <GlobalBottomBanner /> */}
                     </main>
                   </AdSidebarWrapper>
                 </div>

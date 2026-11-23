@@ -13,19 +13,45 @@ function CalculatorGrid({ calculators }: { calculators: Calculator[] }) {
         <li key={calc.href}>
           <Link
             href={calc.href}
-            className="group flex items-center justify-between px-3.5 py-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200/90 dark:border-slate-800 text-slate-700 dark:text-slate-200 text-sm font-medium hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50/40 dark:hover:bg-indigo-950/30 shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:shadow-sm hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 transition-all duration-150"
+            className="group flex items-center justify-between px-3.5 py-3
+    bg-white dark:bg-[#0F172A]
+    rounded-xl border border-[#E2E8F0] dark:border-[#1E293B]
+    text-[#0000FF] dark:text-[#93A8FF]
+    text-sm font-medium
+    hover:border-[#CBD5E1] dark:hover:border-[#334155]
+    hover:text-[#0000CC] dark:hover:text-[#B4C2FF]
+    hover:bg-[#F8FAFF] dark:hover:bg-[#172554]
+    shadow-[0_1px_2px_rgba(0,0,0,0.03)]
+    hover:shadow-sm hover:-translate-y-0.5
+    focus:outline-none focus-visible:ring-2
+    focus-visible:ring-[#93C5FD] dark:focus-visible:ring-[#526FFF]
+    transition-all duration-150"
           >
             <span className="flex items-center gap-3 min-w-0">
-              <span className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-100/70 dark:group-hover:bg-indigo-900/40 transition-colors">
+              <span
+                className="w-8 h-8 rounded-lg
+        bg-[#F1F5F9] dark:bg-[#1E293B]
+        flex items-center justify-center flex-shrink-0
+        group-hover:bg-[#DBEAFE] dark:group-hover:bg-[#1E3A8A]
+        transition-colors"
+              >
                 <i
-                  className={`fas ${calc.icon} text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 text-xs transition-colors`}
+                  className={`fas ${calc.icon} text-[#0000FF] dark:text-[#93A8FF]
+          group-hover:text-[#0000CC] dark:group-hover:text-[#B4C2FF]
+          text-xs transition-colors`}
                   aria-hidden="true"
                 />
               </span>
-              <span className="truncate">{calc.name}</span>
+
+              <span className="truncate hover:underline">{calc.name}</span>
             </span>
+
             <i
-              className="fas fa-arrow-right text-xs text-slate-300 dark:text-slate-600 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 group-hover:translate-x-0.5 transition-all duration-150 flex-shrink-0 ml-2"
+              className="fas fa-arrow-right text-xs
+      text-[#0000FF] dark:text-[#93A8FF]
+      group-hover:text-[#0000CC] dark:group-hover:text-[#B4C2FF]
+      group-hover:translate-x-0.5
+      transition-all duration-150 flex-shrink-0 ml-2"
               aria-hidden="true"
             />
           </Link>
@@ -56,7 +82,8 @@ export default function CategoryList({
                 {subCat.label}
               </h2>
               <span className="text-xs font-medium text-slate-400 dark:text-slate-500">
-                {directCalcs.length} {directCalcs.length === 1 ? "calculator" : "calculators"}
+                {directCalcs.length}{" "}
+                {directCalcs.length === 1 ? "calculator" : "calculators"}
               </span>
             </div>
 

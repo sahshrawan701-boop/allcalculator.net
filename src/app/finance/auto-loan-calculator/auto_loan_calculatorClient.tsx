@@ -2,29 +2,22 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import CalculatorActions from "@/components/CalculatorActions";
-import Link from "next/link";
 import { useCurrency } from "@/hooks/useCurrency";
 
-// ─── Shared Components ────────────────────────────────────────────────────────
+// ─── Shared Input Components ──────────────────────────────────────────────────
 
 interface LabelProps {
   children: React.ReactNode;
   htmlFor?: string;
-  sub?: string;
 }
 
-function Label({ children, htmlFor, sub }: LabelProps) {
+function Label({ children, htmlFor }: LabelProps) {
   return (
     <label
       htmlFor={htmlFor}
-      className="block text-[11px] font-semibold tracking-[0.08em] uppercase text-slate-500 dark:text-slate-400 mb-1.5"
+      className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5"
     >
       {children}
-      {sub && (
-        <span className="ml-1.5 font-normal normal-case text-slate-400 dark:text-slate-400">
-          {sub}
-        </span>
-      )}
     </label>
   );
 }
@@ -32,7 +25,6 @@ function Label({ children, htmlFor, sub }: LabelProps) {
 interface NumInputProps {
   id: string;
   label: string;
-  sub?: string;
   value: number;
   onChange: (v: number) => void;
   prefix?: string;
@@ -40,12 +32,12 @@ interface NumInputProps {
   step?: string;
   min?: string;
   max?: string;
+  placeholder?: string;
 }
 
 function NumInput({
   id,
   label,
-  sub,
   value,
   onChange,
   prefix,
@@ -53,15 +45,14 @@ function NumInput({
   step = "any",
   min = "0",
   max,
+  placeholder,
 }: NumInputProps) {
   return (
     <div>
-      <Label htmlFor={id} sub={sub}>
-        {label}
-      </Label>
+      <Label htmlFor={id}>{label}</Label>
       <div className="relative group">
         {prefix && (
-          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-semibold text-slate-400 dark:text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+          <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-sm font-semibold text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 transition-colors">
             {prefix}
           </span>
         )}
@@ -72,77 +63,21 @@ function NumInput({
           min={min}
           max={max}
           step={step}
-          value={value}
+          placeholder={placeholder}
+          value={isNaN(value) ? "" : value}
           onChange={(e) => {
             const v = parseFloat(e.target.value);
-            if (!isNaN(v)) onChange(v);
+            onChange(isNaN(v) ? 0 : v);
           }}
-          className={`w-full h-10 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-100 outline-none transition-all focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-500 hover:border-slate-200 dark:hover:border-slate-600 ${prefix ? "pl-8" : "pl-3"} ${suffix ? "pr-10" : "pr-3"}`}
+          className={`w-full h-10.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-slate-850 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 ${
+            prefix ? "pl-8" : "pl-3.5"
+          } ${suffix ? (suffix.length > 2 ? "pr-16" : "pr-10") : "pr-3.5"}`}
         />
         {suffix && (
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-sm font-medium text-slate-400 dark:text-slate-400">
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3.5 text-xs font-semibold text-slate-400 dark:text-slate-500 group-focus-within:text-indigo-600 dark:group-focus-within:text-indigo-400 transition-colors">
             {suffix}
           </span>
         )}
-      </div>
-    </div>
-  );
-}
-
-interface SliderProps {
-  id: string;
-  label: string;
-  value: number;
-  onChange: (v: number) => void;
-  min: number;
-  max: number;
-  step: number;
-  format?: (v: number) => string;
-}
-
-function Slider({
-  id,
-  label,
-  value,
-  onChange,
-  min,
-  max,
-  step,
-  format,
-}: SliderProps) {
-  const raw = Math.min(Math.max(value, min), max);
-  const pct = max > min ? ((raw - min) / (max - min)) * 100 : 0;
-  return (
-    <div>
-      <div className="flex justify-between items-baseline mb-1.5">
-        <Label htmlFor={id}>{label}</Label>
-        <span className="text-sm font-bold text-indigo-600 dark:text-indigo-400 tabular-nums">
-          {format ? format(raw) : raw}
-        </span>
-      </div>
-      <div className="relative h-5 flex items-center">
-        <div className="absolute inset-x-0 h-1.5 rounded-full bg-slate-200 dark:bg-slate-900" />
-        <div
-          className="absolute left-0 h-1.5 rounded-full bg-indigo-500"
-          style={{ width: `${pct}%` }}
-        />
-        <input
-          id={id}
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={raw}
-          onChange={(e) => onChange(Number(e.target.value))}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-          aria-valuenow={raw}
-          aria-valuemin={min}
-          aria-valuemax={max}
-        />
-        <div
-          className="absolute w-4 h-4 rounded-full bg-indigo-500 shadow-md border-2 border-white dark:border-slate-900 pointer-events-none"
-          style={{ left: `calc(${pct}% - 8px)` }}
-        />
       </div>
     </div>
   );
@@ -156,7 +91,7 @@ interface SectionCardProps {
 function SectionCard({ children, className = "" }: SectionCardProps) {
   return (
     <div
-      className={`bg-white dark:bg-slate-900/80 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 overflow-hidden ${className}`}
+      className={`bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-[0_1px_3px_rgba(0,0,0,0.04)] overflow-hidden ${className}`}
     >
       {children}
     </div>
@@ -166,32 +101,45 @@ function SectionCard({ children, className = "" }: SectionCardProps) {
 type SectionHeadColor = "indigo" | "amber" | "emerald" | "violet";
 
 interface SectionHeadProps {
-  icon: string;
+  iconClass: string;
   title: string;
+  badge?: string;
   color?: SectionHeadColor;
 }
 
-function SectionHead({ icon, title, color = "indigo" }: SectionHeadProps) {
+function SectionHead({
+  iconClass,
+  title,
+  badge,
+  color = "indigo",
+}: SectionHeadProps) {
   const colors: Record<SectionHeadColor, string> = {
     indigo:
-      "bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400",
+      "bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400",
     amber:
-      "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
+      "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400",
     emerald:
-      "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400",
+      "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400",
     violet:
-      "bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400",
+      "bg-violet-50 dark:bg-violet-950/60 text-violet-600 dark:text-violet-400",
   };
   return (
-    <div className="flex items-center gap-3 px-5 py-3.5 border-b border-slate-100 dark:border-slate-800/60">
-      <span
-        className={`w-7 h-7 rounded-lg flex items-center justify-center text-sm ${colors[color]}`}
-      >
-        {icon}
-      </span>
-      <span className="text-sm font-semibold text-slate-800 dark:text-slate-100">
-        {title}
-      </span>
+    <div className="flex items-center justify-between px-5 py-3.5 border-b border-slate-100 dark:border-slate-800">
+      <div className="flex items-center gap-2.5">
+        <span
+          className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs ${colors[color]}`}
+        >
+          <i className={`fas ${iconClass}`} aria-hidden="true" />
+        </span>
+        <span className="text-sm font-bold text-slate-900 dark:text-white">
+          {title}
+        </span>
+      </div>
+      {badge && (
+        <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+          {badge}
+        </span>
+      )}
     </div>
   );
 }
@@ -206,18 +154,26 @@ interface StatPillProps {
 function StatPill({ label, value, sub, accent = false }: StatPillProps) {
   return (
     <div
-      className={`rounded-xl px-4 py-3 ${accent ? "bg-indigo-50 dark:bg-indigo-900/20" : "bg-slate-50 dark:bg-slate-900/40"}`}
+      className={`rounded-xl px-4 py-3 border ${
+        accent
+          ? "bg-indigo-50/70 dark:bg-indigo-950/40 border-indigo-100 dark:border-indigo-900/60"
+          : "bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-800"
+      }`}
     >
-      <div className="text-[10px] font-semibold uppercase tracking-[0.09em] text-slate-500 dark:text-slate-400 mb-0.5">
+      <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-0.5">
         {label}
       </div>
       <div
-        className={`text-lg font-bold tabular-nums ${accent ? "text-indigo-600 dark:text-indigo-400" : "text-slate-800 dark:text-slate-100"}`}
+        className={`text-lg font-bold tabular-nums ${
+          accent
+            ? "text-indigo-600 dark:text-indigo-400"
+            : "text-slate-900 dark:text-white"
+        }`}
       >
         {value}
       </div>
       {sub && (
-        <div className="text-[10px] text-slate-400 dark:text-slate-400 mt-0.5">
+        <div className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
           {sub}
         </div>
       )}
@@ -375,6 +331,7 @@ function PremiumDonut({ principal, interest, taxes, fees }: PremiumDonutProps) {
 }
 
 // ─── AMORTIZATION TABLE ───────────────────────────────────────────────────────
+
 interface AmortRow {
   num: number;
   date: string;
@@ -390,19 +347,77 @@ interface AmortRow {
 
 function AmortTable({ schedule }: { schedule: AmortRow[] }) {
   const { fmt } = useCurrency();
-  const [page, setPage] = useState(0);
-  const PAGE = 12;
-  const total = schedule.length;
-  const rows = schedule.slice(page * PAGE, page * PAGE + PAGE);
+  const [scheduleView, setScheduleView] = useState<"monthly" | "annual">(
+    "monthly",
+  );
+
+  const annualData = useMemo(() => {
+    const years = Math.ceil(schedule.length / 12);
+    const result: AmortRow[] = [];
+    for (let year = 1; year <= years; year++) {
+      const start = (year - 1) * 12;
+      const end = Math.min(start + 11, schedule.length - 1);
+      if (start >= schedule.length) break;
+      const first = schedule[start];
+      const last = schedule[end];
+      let annPayment = 0;
+      let annPrin = 0;
+      let annInt = 0;
+      for (let i = start; i <= end; i++) {
+        annPayment += schedule[i].payment;
+        annPrin += schedule[i].principal;
+        annInt += schedule[i].interest;
+      }
+      result.push({
+        num: year,
+        date: `Year ${year}`,
+        begBal: first.begBal,
+        payment: annPayment,
+        principal: annPrin,
+        interest: annInt,
+        extra: 0,
+        endBal: last.endBal,
+        cumInt: last.cumInt,
+        cumPrin: last.cumPrin,
+      });
+    }
+    return result;
+  }, [schedule]);
+
+  const tableData = scheduleView === "monthly" ? schedule : annualData;
 
   return (
-    <div className="mt-6">
-      <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
-        <table className="w-full text-left border-collapse min-w-[700px]">
+    <div>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+        <h4 className="text-base font-semibold text-slate-800 dark:text-slate-200">
+          Loan Amortization Schedule
+        </h4>
+        <div className="flex gap-2">
+          {(["monthly", "annual"] as const).map((view) => (
+            <button
+              key={view}
+              type="button"
+              onClick={() => setScheduleView(view)}
+              className={`px-4 py-2 rounded-lg border-2 text-sm font-medium cursor-pointer transition-all min-h-[40px] capitalize ${
+                scheduleView === view
+                  ? "bg-indigo-500 text-white border-indigo-500"
+                  : "border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 hover:border-indigo-300"
+              }`}
+            >
+              {view.charAt(0).toUpperCase() + view.slice(1)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="overflow-x-auto max-h-[600px] overflow-y-auto mt-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm min-w-0 w-full max-w-full [-webkit-overflow-scrolling:touch]"
+      >
+        <table className="w-full border-collapse min-w-[640px] text-sm">
           <thead>
-            <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+            <tr>
               {[
-                "#",
+                "Period",
                 "Date",
                 "Beginning Bal",
                 "Payment",
@@ -413,67 +428,51 @@ function AmortTable({ schedule }: { schedule: AmortRow[] }) {
               ].map((h) => (
                 <th
                   key={h}
-                  className="py-3 px-4 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400 whitespace-nowrap text-right first:text-left"
+                  className="sticky top-0 bg-indigo-700 dark:bg-slate-950 text-white px-3 py-3
+                    text-left font-semibold border-r border-slate-300/30 last:border-r-0
+                    whitespace-nowrap text-xs tracking-wide z-10"
                 >
                   {h}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
-            {rows.map((r) => (
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+            {tableData.map((item, i) => (
               <tr
-                key={r.num}
-                className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors"
+                key={`${item.num}-${item.date}-${i}`}
+                className="bg-white dark:bg-slate-900 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 transition-colors"
               >
-                <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400 text-left">
-                  {r.num}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-300 whitespace-nowrap text-xs sm:text-sm">
+                  {scheduleView === "monthly"
+                    ? `Month ${item.num}`
+                    : `Year ${item.num}`}
                 </td>
-                <td className="py-3 px-4 text-xs text-slate-600 dark:text-slate-300 font-medium whitespace-nowrap text-right">
-                  {r.date}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-300 whitespace-nowrap text-xs sm:text-sm">
+                  {item.date}
                 </td>
-                <td className="py-3 px-4 text-xs text-slate-700 dark:text-slate-200 tabular-nums text-right">
-                  {fmt(r.begBal)}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.begBal)}
                 </td>
-                <td className="py-3 px-4 text-xs font-semibold text-indigo-600 dark:text-indigo-400 tabular-nums text-right">
-                  {fmt(r.payment)}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-indigo-600 dark:text-indigo-400 font-semibold whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.payment)}
                 </td>
-                <td className="py-3 px-4 text-xs text-emerald-600 dark:text-emerald-400 tabular-nums text-right">
-                  {fmt(r.principal)}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-emerald-600 dark:text-emerald-400 whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.principal)}
                 </td>
-                <td className="py-3 px-4 text-xs text-amber-600 dark:text-amber-400 tabular-nums text-right">
-                  {fmt(r.interest)}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-amber-600 dark:text-amber-400 whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.interest)}
                 </td>
-                <td className="py-3 px-4 text-xs text-slate-700 dark:text-slate-200 tabular-nums text-right">
-                  {fmt(r.endBal)}
+                <td className="px-3 py-3 border-r border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.endBal)}
                 </td>
-                <td className="py-3 px-4 text-xs text-slate-500 dark:text-slate-400 tabular-nums text-right">
-                  {fmt(r.cumInt)}
+                <td className="px-3 py-3 border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 whitespace-nowrap tabular-nums text-xs sm:text-sm">
+                  {fmt(item.cumInt)}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
-      <div className="flex justify-between items-center mt-4 px-2">
-        <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-          Showing {page * PAGE + 1}–{Math.min((page + 1) * PAGE, total)} of{" "}
-          {total} payments
-        </span>
-        <div className="flex gap-2">
-          <button
-            disabled={page === 0}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-          >
-            Prev
-          </button>
-          <button
-            disabled={(page + 1) * PAGE >= total}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300 disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-          >
-            Next
-          </button>
-        </div>
       </div>
     </div>
   );
@@ -483,38 +482,9 @@ function AmortTable({ schedule }: { schedule: AmortRow[] }) {
 
 export default function AutoLoanCalculator() {
   const resultRef = useRef<HTMLDivElement>(null);
+  const { fmt, symbol } = useCurrency();
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const dataParam = params.get('data');
-      if (dataParam) {
-        try {
-          const data = JSON.parse(decodeURIComponent(dataParam));
-          if (data.vehiclePrice !== undefined) setVehiclePrice(data.vehiclePrice);
-          if (data.downPayment !== undefined) setDownPayment(data.downPayment);
-          if (data.tradeInValue !== undefined) setTradeInValue(data.tradeInValue);
-          if (data.tradeInBalance !== undefined) setTradeInBalance(data.tradeInBalance);
-          if (data.tradeInTaxDeductible !== undefined) setTradeInTaxDeductible(data.tradeInTaxDeductible);
-          if (data.rebate !== undefined) setRebate(data.rebate);
-          if (data.salesTaxRate !== undefined) setSalesTaxRate(data.salesTaxRate);
-          if (data.docFee !== undefined) setDocFee(data.docFee);
-          if (data.titleFee !== undefined) setTitleFee(data.titleFee);
-          if (data.regFee !== undefined) setRegFee(data.regFee);
-          if (data.gapInsurance !== undefined) setGapInsurance(data.gapInsurance);
-          if (data.extWarranty !== undefined) setExtWarranty(data.extWarranty);
-          if (data.apr !== undefined) setApr(data.apr);
-          if (data.termMonths !== undefined) setTermMonths(data.termMonths);
-          if (data.extraMonthly !== undefined) setExtraMonthly(data.extraMonthly);
-          // Remove query param from URL without refreshing
-          window.history.replaceState({}, '', window.location.pathname);
-        } catch(e) {}
-      }
-    }
-  }, []);
-
-  const { fmt, fmtShort, symbol } = useCurrency();
-
+  // All state declared first to comply with React hook ordering rules
   const [vehiclePrice, setVehiclePrice] = useState(42000);
   const [downPayment, setDownPayment] = useState(8000);
   const [tradeInValue, setTradeInValue] = useState(6000);
@@ -531,6 +501,48 @@ export default function AutoLoanCalculator() {
   const [termMonths, setTermMonths] = useState(60);
   const [extraMonthly, setExtraMonthly] = useState(0);
   const [activeTab, setActiveTab] = useState<"summary" | "amort">("summary");
+
+  // Read URL query parameters after state is initialized
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const dataParam = params.get("data");
+      if (dataParam) {
+        try {
+          const data = JSON.parse(decodeURIComponent(dataParam));
+          setTimeout(() => {
+            if (data.vehiclePrice !== undefined)
+              setVehiclePrice(data.vehiclePrice);
+            if (data.downPayment !== undefined)
+              setDownPayment(data.downPayment);
+            if (data.tradeInValue !== undefined)
+              setTradeInValue(data.tradeInValue);
+            if (data.tradeInBalance !== undefined)
+              setTradeInBalance(data.tradeInBalance);
+            if (data.tradeInTaxDeductible !== undefined)
+              setTradeInTaxDeductible(data.tradeInTaxDeductible);
+            if (data.rebate !== undefined) setRebate(data.rebate);
+            if (data.salesTaxRate !== undefined)
+              setSalesTaxRate(data.salesTaxRate);
+            if (data.docFee !== undefined) setDocFee(data.docFee);
+            if (data.titleFee !== undefined) setTitleFee(data.titleFee);
+            if (data.regFee !== undefined) setRegFee(data.regFee);
+            if (data.gapInsurance !== undefined)
+              setGapInsurance(data.gapInsurance);
+            if (data.extWarranty !== undefined)
+              setExtWarranty(data.extWarranty);
+            if (data.apr !== undefined) setApr(data.apr);
+            if (data.termMonths !== undefined) setTermMonths(data.termMonths);
+            if (data.extraMonthly !== undefined)
+              setExtraMonthly(data.extraMonthly);
+          }, 0);
+          window.history.replaceState({}, "", window.location.pathname);
+        } catch {
+          // Ignore invalid URL parameters safely
+        }
+      }
+    }
+  }, []);
 
   const result = useMemo(() => {
     const netTradeEquity = tradeInValue - tradeInBalance;
@@ -641,222 +653,222 @@ export default function AutoLoanCalculator() {
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 rounded-xl">
-      <div ref={resultRef} className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-5">
-          {/* ── LEFT: Inputs ── */}
-          <div className="space-y-4">
-            {/* Vehicle Details */}
-            <SectionCard>
-              <SectionHead icon="🚗" title="Vehicle Details" color="indigo" />
-              <div className="p-5 space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <NumInput
-                    id="vehiclePrice"
-                    label="Vehicle Price"
-                    value={vehiclePrice}
-                    onChange={setVehiclePrice}
-                    prefix={symbol}
-                    min="0"
-                  />
-                  <NumInput
-                    id="rebate"
-                    label="Dealer Rebates"
-                    value={rebate}
-                    onChange={setRebate}
-                    prefix={symbol}
-                    min="0"
-                  />
-                </div>
-                <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800/60">
-                  <Slider
-                    id="sl-price"
-                    label="Vehicle Price"
-                    value={vehiclePrice}
-                    onChange={setVehiclePrice}
-                    min={5000}
-                    max={150000}
-                    step={1000}
-                    format={(v) => fmt(v, 0)}
-                  />
-                </div>
-              </div>
-            </SectionCard>
-
-            {/* Financing */}
-            <SectionCard>
-              <SectionHead icon="💳" title="Financing" color="emerald" />
-              <div className="p-5 space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <NumInput
-                    id="downPayment"
-                    label="Down Payment"
-                    value={downPayment}
-                    onChange={setDownPayment}
-                    prefix={symbol}
-                    min="0"
-                  />
-                  <NumInput
-                    id="apr"
-                    label="Interest Rate (APR)"
-                    value={apr}
-                    onChange={setApr}
-                    suffix="%"
-                    min="0"
-                    step="0.1"
-                  />
+    <div className="w-full">
+      <div ref={resultRef} className="w-full min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] xl:grid-cols-[380px_1fr] gap-6 items-start w-full min-w-0">
+          {/* ── LEFT: Single Parent Container for All Inputs (Decreased width, clean & uncluttered) ── */}
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] space-y-4 w-full min-w-0">
+            <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-sm shadow-sm">
+                  <i className="fas fa-car" aria-hidden="true" />
                 </div>
                 <div>
-                  <Label htmlFor="termMonths">Loan Term</Label>
-                  <select
-                    id="termMonths"
-                    value={termMonths}
-                    onChange={(e) => setTermMonths(Number(e.target.value))}
-                    className="w-full h-10 px-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm font-medium text-slate-800 dark:text-slate-100 outline-none transition-all focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
-                  >
-                    {[24, 36, 48, 60, 72, 84, 96].map((t) => (
-                      <option key={t} value={t}>
-                        {t} Months
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800/60">
-                  <Slider
-                    id="sl-down"
-                    label="Down Payment"
-                    value={downPayment}
-                    onChange={setDownPayment}
-                    min={0}
-                    max={vehiclePrice}
-                    step={500}
-                    format={(v) => fmt(v, 0)}
-                  />
-                  <Slider
-                    id="sl-apr"
-                    label="APR"
-                    value={apr}
-                    onChange={setApr}
-                    min={0}
-                    max={25}
-                    step={0.1}
-                    format={(v) => v.toFixed(1) + "%"}
-                  />
+                  <h2 className="text-base font-bold text-slate-900 dark:text-white leading-tight">
+                    Auto Loan Parameters
+                  </h2>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">
+                    Enter vehicle price, financing terms, and fees
+                  </p>
                 </div>
               </div>
-            </SectionCard>
+            </div>
 
-            {/* Trade-In */}
-            <SectionCard>
-              <SectionHead icon="🔄" title="Trade-In" color="amber" />
-              <div className="p-5 space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <NumInput
-                    id="tradeInValue"
-                    label="Trade-In Value"
-                    value={tradeInValue}
-                    onChange={setTradeInValue}
-                    prefix={symbol}
-                    min="0"
-                  />
-                  <NumInput
-                    id="tradeInBalance"
-                    label="Outstanding Balance"
-                    value={tradeInBalance}
-                    onChange={setTradeInBalance}
-                    prefix={symbol}
-                    min="0"
-                    sub="(Amount Owed)"
-                  />
-                </div>
-                <div className="flex items-center gap-3 pt-2">
-                  <input
-                    type="checkbox"
-                    id="taxDeductible"
-                    checked={tradeInTaxDeductible}
-                    onChange={(e) => setTradeInTaxDeductible(e.target.checked)}
-                    className="w-4 h-4 text-amber-600 rounded border-slate-300 focus:ring-amber-500 dark:border-slate-700 dark:bg-slate-900"
-                  />
-                  <Label htmlFor="taxDeductible">
-                    Trade-In is Tax Deductible
-                  </Label>
-                </div>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0 pt-0">
-                  Most US states deduct your trade-in value from the vehicle
-                  price before calculating sales tax. Uncheck if your state
-                  (e.g. CA, VA) does not allow this.
-                </p>
-              </div>
-            </SectionCard>
+            {/* 1. Vehicle Price */}
+            <NumInput
+              id="vehiclePrice"
+              label="Vehicle Price"
+              value={vehiclePrice}
+              onChange={setVehiclePrice}
+              prefix={symbol}
+              min="0"
+              step="500"
+            />
 
-            {/* Taxes & Fees */}
-            <SectionCard>
-              <SectionHead icon="📋" title="Taxes & Fees" color="violet" />
-              <div className="p-5 space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <NumInput
-                    id="salesTaxRate"
-                    label="Sales Tax Rate"
-                    value={salesTaxRate}
-                    onChange={setSalesTaxRate}
-                    suffix="%"
-                    min="0"
-                    step="0.1"
-                  />
-                  <NumInput
-                    id="docFee"
-                    label="Doc Fee"
-                    value={docFee}
-                    onChange={setDocFee}
-                    prefix={symbol}
-                    min="0"
-                  />
-                  <NumInput
-                    id="titleFee"
-                    label="Title/Reg Fees"
-                    value={titleFee + regFee}
-                    onChange={(v) => {
-                      setTitleFee(v / 2);
-                      setRegFee(v / 2);
-                    }}
-                    prefix={symbol}
-                    min="0"
-                  />
-                  <NumInput
-                    id="gapInsurance"
-                    label="GAP Insurance / Ext. Warranty"
-                    value={gapInsurance + extWarranty}
-                    onChange={(v) => {
-                      setGapInsurance(v / 2);
-                      setExtWarranty(v / 2);
-                    }}
-                    prefix={symbol}
-                    min="0"
-                  />
-                </div>
-              </div>
-            </SectionCard>
+            {/* 2. Dealer Rebates */}
+            <NumInput
+              id="rebate"
+              label="Dealer Rebates & Incentives"
+              value={rebate}
+              onChange={setRebate}
+              prefix={symbol}
+              min="0"
+              step="250"
+            />
 
-            {/* Extra Payments */}
-            <SectionCard>
-              <SectionHead icon="⏱️" title="Extra Payments" color="emerald" />
-              <div className="p-5 space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <NumInput
-                    id="extraMonthly"
-                    label="Extra Monthly Payment"
-                    value={extraMonthly}
-                    onChange={setExtraMonthly}
-                    prefix={symbol}
-                    min="0"
-                  />
-                </div>
+            {/* 3. Down Payment */}
+            <NumInput
+              id="downPayment"
+              label="Cash Down Payment"
+              value={downPayment}
+              onChange={setDownPayment}
+              prefix={symbol}
+              min="0"
+              step="500"
+            />
+
+            {/* 4. Trade-In Value */}
+            <NumInput
+              id="tradeInValue"
+              label="Trade-In Vehicle Value"
+              value={tradeInValue}
+              onChange={setTradeInValue}
+              prefix={symbol}
+              min="0"
+              step="500"
+            />
+
+            {/* 5. Trade-In Balance */}
+            <NumInput
+              id="tradeInBalance"
+              label="Amount Owed on Trade-In"
+              value={tradeInBalance}
+              onChange={setTradeInBalance}
+              prefix={symbol}
+              min="0"
+              step="500"
+            />
+
+            {/* Net Equity Feedback Pill */}
+            <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+              <div className="flex items-center gap-2">
+                <i
+                  className={`fas ${
+                    result.netTradeEquity >= 0
+                      ? "fa-arrow-trend-up text-emerald-500"
+                      : "fa-arrow-trend-down text-rose-500"
+                  } text-xs`}
+                  aria-hidden="true"
+                />
+                <span className="text-xs font-semibold text-slate-600 dark:text-slate-300">
+                  Net Trade Equity:
+                </span>
               </div>
-            </SectionCard>
+              <span
+                className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                  result.netTradeEquity >= 0
+                    ? "bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300"
+                    : "bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300"
+                }`}
+              >
+                {result.netTradeEquity >= 0 ? "+" : "-"}
+                {fmt(Math.abs(result.netTradeEquity), 0)}{" "}
+                {result.netTradeEquity >= 0 ? "Equity" : "Negative Equity"}
+              </span>
+            </div>
+
+            {/* Trade-In Tax Deductible Checkbox */}
+            <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-200/60 dark:border-slate-800/60 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              <label
+                htmlFor="taxDeductible"
+                className="flex items-start gap-2.5 cursor-pointer select-none"
+              >
+                <input
+                  type="checkbox"
+                  id="taxDeductible"
+                  checked={tradeInTaxDeductible}
+                  onChange={(e) => setTradeInTaxDeductible(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 text-indigo-600 rounded border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-indigo-500 cursor-pointer"
+                />
+                <div>
+                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                    Trade-in reduces sales tax (Standard in 42+ US states)
+                  </span>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 leading-relaxed">
+                    Taxes only the net purchase difference. Uncheck if buying in
+                    CA, VA, MD, MI, HI, DC, or KY.
+                  </p>
+                </div>
+              </label>
+            </div>
+
+            {/* 6. Interest Rate (APR) */}
+            <NumInput
+              id="apr"
+              label="Interest Rate (APR)"
+              value={apr}
+              onChange={setApr}
+              suffix="%"
+              min="0"
+              step="0.1"
+            />
+
+            {/* 7. Loan Term */}
+            <NumInput
+              id="customTerm"
+              label="Loan Term"
+              value={termMonths}
+              onChange={(v) => setTermMonths(Math.max(1, Math.round(v)))}
+              suffix={`${(termMonths / 12).toFixed(1)} yrs`}
+              min="12"
+              max="120"
+              step="12"
+            />
+
+            {/* 8. State Sales Tax */}
+            <NumInput
+              id="salesTaxRate"
+              label="State & Local Sales Tax"
+              value={salesTaxRate}
+              onChange={setSalesTaxRate}
+              suffix="%"
+              min="0"
+              step="0.1"
+            />
+
+            {/* 9. Dealer Doc Fee */}
+            <NumInput
+              id="docFee"
+              label="Dealer Documentation Fee"
+              value={docFee}
+              onChange={setDocFee}
+              prefix={symbol}
+              min="0"
+              step="50"
+            />
+
+            {/* 10. Title & Registration Fees */}
+            <NumInput
+              id="titleFee"
+              label="Title & Registration Fees"
+              value={titleFee + regFee}
+              onChange={(v) => {
+                setTitleFee(v / 2);
+                setRegFee(v / 2);
+              }}
+              prefix={symbol}
+              min="0"
+              step="25"
+            />
+
+            {/* 11. Optional GAP & Warranty */}
+            <NumInput
+              id="gapInsurance"
+              label="Optional GAP & Warranty Add-ons"
+              value={gapInsurance + extWarranty}
+              onChange={(v) => {
+                setGapInsurance(v / 2);
+                setExtWarranty(v / 2);
+              }}
+              prefix={symbol}
+              min="0"
+              step="100"
+            />
+
+            {/* 12. Extra Monthly Payment */}
+            <NumInput
+              id="extraMonthly"
+              label="Extra Monthly Payment"
+              value={extraMonthly}
+              onChange={setExtraMonthly}
+              prefix={symbol}
+              min="0"
+              step="25"
+            />
           </div>
 
-          {/* ── RIGHT: Results ── */}
-          <div className="space-y-5">
+          {/* ── RIGHT: Results (Preserved 100% as requested) ── */}
+          <div className="space-y-5 w-full min-w-0">
             <SectionCard className="border-indigo-500/20 dark:border-indigo-400/20">
               <div className="bg-indigo-600 dark:bg-indigo-900/60 p-5 text-white">
                 <div className="text-xs font-semibold uppercase tracking-wider text-indigo-200 mb-1">
@@ -923,142 +935,170 @@ export default function AutoLoanCalculator() {
                 </strong>{" "}
                 Calculations are strictly estimates. Your actual APR, term, and
                 down payment requirements will depend on your credit score and
-                the lender's policies. State tax rules (like trade-in
+                the lender&apos;s policies. State tax rules (like trade-in
                 deductibility) vary heavily.
               </p>
             </footer>
-          </div>
-        </div>
 
-        {/* ── TABS FOR AMORTIZATION ── */}
-        <div className="mt-8">
-          <div className="flex gap-2 border-b border-slate-200 dark:border-slate-800">
-            <button
-              onClick={() => setActiveTab("summary")}
-              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
-                activeTab === "summary"
-                  ? "border-indigo-500 text-indigo-600 dark:text-indigo-400"
-                  : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-              }`}
-            >
-              Summary
-            </button>
-            <button
-              onClick={() => setActiveTab("amort")}
-              className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
-                activeTab === "amort"
-                  ? "border-indigo-500 text-indigo-600 dark:text-indigo-400"
-                  : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-              }`}
-            >
-              Amortization Schedule
-            </button>
-          </div>
-
-          <div className="py-6">
-            {activeTab === "summary" && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <SectionCard>
-                  <SectionHead
-                    icon="📊"
-                    title="Payment Breakdown"
-                    color="indigo"
-                  />
-                  <div className="p-5">
-                    <div className="space-y-4">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-slate-600 dark:text-slate-400">
-                          Vehicle Price
-                        </span>
-                        <span className="font-semibold text-slate-800 dark:text-slate-200">
-                          {fmt(vehiclePrice)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
-                        <span>Down Payment</span>
-                        <span className="font-semibold">
-                          - {fmt(downPayment)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
-                        <span>Dealer Rebates</span>
-                        <span className="font-semibold">- {fmt(rebate)}</span>
-                      </div>
-                      <div
-                        className={`flex justify-between text-sm ${result.netTradeEquity >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}
-                      >
-                        <span>Net Trade Equity</span>
-                        <span className="font-semibold">
-                          {result.netTradeEquity >= 0 ? "- " : "+ "}
-                          {fmt(Math.abs(result.netTradeEquity))}
-                        </span>
-                      </div>
-                      <div className="flex justify-between text-sm text-amber-600 dark:text-amber-400">
-                        <span>Taxes & Fees</span>
-                        <span className="font-semibold">
-                          + {fmt(result.taxAmount + result.totalFees)}
-                        </span>
-                      </div>
-                      <div className="border-t border-slate-200 dark:border-slate-800 pt-3 flex justify-between text-sm font-bold text-slate-800 dark:text-slate-200">
-                        <span>Amount Financed</span>
-                        <span>{fmt(result.loanAmount)}</span>
-                      </div>
-                    </div>
-                  </div>
-                </SectionCard>
-
-                <SectionCard>
-                  <SectionHead
-                    icon="💡"
-                    title="Interest Insights"
-                    color="amber"
-                  />
-                  <div className="p-5 space-y-4">
-                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                      Over the life of this{" "}
-                      <span className="font-semibold">{termMonths}-month</span>{" "}
-                      loan, you will pay{" "}
-                      <span className="font-semibold text-rose-500">
-                        {fmt(result.totalInterest)}
-                      </span>{" "}
-                      in interest.
-                    </p>
-                    {extraMonthly > 0 && (
-                      <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        By paying an extra{" "}
-                        <span className="font-semibold text-emerald-500">
-                          {fmt(extraMonthly)}
-                        </span>{" "}
-                        per month, you are paying off the loan in{" "}
-                        <span className="font-semibold">
-                          {result.effectivePayoff} months
-                        </span>{" "}
-                        instead of {termMonths} months.
-                      </p>
-                    )}
-                    {result.netTradeEquity < 0 && (
-                      <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-100 dark:border-rose-900/30">
-                        <p className="text-xs text-rose-700 dark:text-rose-300 font-medium">
-                          <strong>Negative Equity Warning:</strong> You have{" "}
-                          {fmt(Math.abs(result.netTradeEquity))} of negative
-                          equity on your trade-in, which is being rolled into
-                          your new loan, increasing your amount financed and
-                          monthly payment.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </SectionCard>
+            {/* ── TABS FOR SUMMARY & AMORTIZATION (Directly below results at the right of input container) ── */}
+            <div className="pt-2 w-full min-w-0">
+              <div className="flex gap-2 border-b border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("summary")}
+                  className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
+                    activeTab === "summary"
+                      ? "border-indigo-500 text-indigo-600 dark:text-indigo-400"
+                      : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                  }`}
+                >
+                  Summary
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("amort")}
+                  className={`px-4 py-3 text-sm font-semibold border-b-2 transition-colors ${
+                    activeTab === "amort"
+                      ? "border-indigo-500 text-indigo-600 dark:text-indigo-400"
+                      : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+                  }`}
+                >
+                  Amortization Schedule
+                </button>
               </div>
-            )}
-            {activeTab === "amort" && <AmortTable schedule={result.schedule} />}
+
+              <div className="py-5 w-full min-w-0">
+                {activeTab === "summary" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <SectionCard>
+                      <SectionHead
+                        iconClass="fa-chart-pie"
+                        title="Payment Breakdown"
+                        color="indigo"
+                      />
+                      <div className="p-5">
+                        <div className="space-y-4">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-slate-600 dark:text-slate-400">
+                              Vehicle Price
+                            </span>
+                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                              {fmt(vehiclePrice)}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
+                            <span>Down Payment</span>
+                            <span className="font-semibold">
+                              - {fmt(downPayment)}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400">
+                            <span>Dealer Rebates</span>
+                            <span className="font-semibold">
+                              - {fmt(rebate)}
+                            </span>
+                          </div>
+                          <div
+                            className={`flex justify-between text-sm ${
+                              result.netTradeEquity >= 0
+                                ? "text-emerald-600 dark:text-emerald-400"
+                                : "text-rose-600 dark:text-rose-400"
+                            }`}
+                          >
+                            <span>Net Trade Equity</span>
+                            <span className="font-semibold">
+                              {result.netTradeEquity >= 0 ? "- " : "+ "}
+                              {fmt(Math.abs(result.netTradeEquity))}
+                            </span>
+                          </div>
+                          <div className="flex justify-between text-sm text-amber-600 dark:text-amber-400">
+                            <span>Taxes & Fees</span>
+                            <span className="font-semibold">
+                              + {fmt(result.taxAmount + result.totalFees)}
+                            </span>
+                          </div>
+                          <div className="border-t border-slate-200 dark:border-slate-800 pt-3 flex justify-between text-sm font-bold text-slate-800 dark:text-slate-200">
+                            <span>Amount Financed</span>
+                            <span>{fmt(result.loanAmount)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </SectionCard>
+
+                    <SectionCard>
+                      <SectionHead
+                        iconClass="fa-lightbulb"
+                        title="Interest Insights"
+                        color="amber"
+                      />
+                      <div className="p-5 space-y-4">
+                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                          Over the life of this{" "}
+                          <span className="font-semibold">
+                            {termMonths}-month
+                          </span>{" "}
+                          loan, you will pay{" "}
+                          <span className="font-semibold text-rose-500">
+                            {fmt(result.totalInterest)}
+                          </span>{" "}
+                          in interest.
+                        </p>
+                        {extraMonthly > 0 && (
+                          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                            By paying an extra{" "}
+                            <span className="font-semibold text-emerald-500">
+                              {fmt(extraMonthly)}
+                            </span>{" "}
+                            per month, you are paying off the loan in{" "}
+                            <span className="font-semibold">
+                              {result.effectivePayoff} months
+                            </span>{" "}
+                            instead of {termMonths} months.
+                          </p>
+                        )}
+                        {result.netTradeEquity < 0 && (
+                          <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4 border border-rose-100 dark:border-rose-900/30">
+                            <p className="text-xs text-rose-700 dark:text-rose-300 font-medium">
+                              <strong>Negative Equity Warning:</strong> You have{" "}
+                              {fmt(Math.abs(result.netTradeEquity))} of negative
+                              equity on your trade-in, which is being rolled
+                              into your new loan, increasing your amount
+                              financed and monthly payment.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </SectionCard>
+                  </div>
+                )}
+                {activeTab === "amort" && (
+                  <AmortTable schedule={result.schedule} />
+                )}
+              </div>
+            </div>
           </div>
         </div>
-      
+
         <CalculatorActions
           calculatorId="auto-loan-calculator"
           calculatorName="Auto Loan Calculator"
-          inputData={{ vehiclePrice, downPayment, tradeInValue, tradeInBalance, tradeInTaxDeductible, rebate, salesTaxRate, docFee, titleFee, regFee, gapInsurance, extWarranty, apr, termMonths, extraMonthly }}
+          inputData={{
+            vehiclePrice,
+            downPayment,
+            tradeInValue,
+            tradeInBalance,
+            tradeInTaxDeductible,
+            rebate,
+            salesTaxRate,
+            docFee,
+            titleFee,
+            regFee,
+            gapInsurance,
+            extWarranty,
+            apr,
+            termMonths,
+            extraMonthly,
+          }}
           resultData={result || {}}
           resultRef={resultRef}
         />

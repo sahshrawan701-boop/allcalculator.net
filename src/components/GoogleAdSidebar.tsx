@@ -1,37 +1,29 @@
+"use client";
+
 import React from "react";
+import GoogleAdContainer from "@/components/GoogleAdContainer";
 
 interface GoogleAdSidebarProps {
   position: "left" | "right";
+  slotId?: string;
 }
 
-export default function GoogleAdSidebar({ position }: GoogleAdSidebarProps) {
+export default function GoogleAdSidebar({
+  position,
+  slotId,
+}: GoogleAdSidebarProps) {
   return (
     <aside
-      className={`hidden xl:block w-[160px] 2xl:w-[300px] flex-shrink-0 py-8 px-4 opacity-0`}
+      aria-label={`Advertisement ${position}`}
+      className="hidden xl:block w-[160px] 2xl:w-[300px] flex-shrink-0 py-8 px-4 opacity-0 pointer-events-none select-none"
     >
-      <div className="sticky top-30 flex flex-col items-center">
-        {/* Placeholder for Google Adsense block */}
-        <div className="w-full h-[600px] bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-lg flex items-center justify-center text-center p-4">
-          <span className="text-sm text-slate-400 font-medium">
-            Advertisement
-            <br />
-            (Google Ads)
-          </span>
-        </div>
-
-        {/* You can insert the actual <ins> tag for Google Ads below: */}
-        {/* 
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossOrigin="anonymous"></script>
-        <ins className="adsbygoogle"
-             style={{ display: 'block' }}
-             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-        */}
+      <div className="sticky top-28 sm:top-32 flex flex-col items-center">
+        <GoogleAdContainer
+          variant="sidebar"
+          slotId={slotId}
+          format="vertical"
+          className="w-full"
+        />
       </div>
     </aside>
   );

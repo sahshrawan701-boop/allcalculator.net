@@ -172,20 +172,6 @@ const CATEGORIES = Object.entries(CATEGORY_CONFIG).map(([category, config]) => {
   };
 });
 
-/* ——— Popular Search Shortcuts ——— */
-const POPULAR_TAGS = [
-  { name: "Mortgage", href: "/mortgage/mortgage-calculator" },
-  { name: "BMI", href: "/health/bmi-calculator" },
-  { name: "Scientific", href: "/math/scientific-calculator" },
-  {
-    name: "Compound Interest",
-    href: "/investing/compound-interest-calculator",
-  },
-  { name: "Discount", href: "/business/discount-calculator" },
-  { name: "Break-Even", href: "/business/break-even-calculator" },
-  { name: "Calorie", href: "/health/calorie-calculator" },
-];
-
 /* ——— Featured Essentials ——— */
 const FEATURED_CALCULATORS = [
   {
@@ -405,22 +391,6 @@ export default function HomePage() {
               <SearchBar />
             </div>
 
-            {/* Popular Shortcut Pills */}
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs text-slate-500 dark:text-slate-400 mb-8 sm:mb-10 w-full sm:max-w-[560px]">
-              <span className="font-medium mr-1 text-slate-400 dark:text-slate-500">
-                Popular:
-              </span>
-              {POPULAR_TAGS.map((tag) => (
-                <Link
-                  key={tag.name}
-                  href={tag.href}
-                  className="px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200/90 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 text-slate-700 dark:text-slate-200 transition-colors duration-150 font-medium text-[11px] sm:text-xs"
-                >
-                  {tag.name}
-                </Link>
-              ))}
-            </div>
-
             {/* Quick Metrics Bar */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-slate-200/80 dark:border-slate-800/80 w-full sm:max-w-[580px]">
               <div>
@@ -502,23 +472,16 @@ export default function HomePage() {
                 className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 p-4 sm:p-5 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_24px_-6px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_24px_-6px_rgba(0,0,0,0.45)] hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-3.5">
-                    <div
-                      className={`w-10 h-10 rounded-xl ${item.bg} flex items-center justify-center flex-shrink-0 transition-transform duration-200 group-hover:scale-105`}
-                    >
-                      <i
-                        className={`fas ${item.icon} text-base ${item.color}`}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                      {item.category}
-                    </span>
+                  <div className="flex items-center gap-3 mb-3.5">
+                    <i
+                      className={`fas ${item.icon} text-base ${item.color}`}
+                      aria-hidden="true"
+                    />
+                    <h3 className="text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                      {item.label}
+                    </h3>
                   </div>
 
-                  <h3 className="text-base font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors mb-1.5">
-                    {item.label}
-                  </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">
                     {item.description}
                   </p>
@@ -623,20 +586,33 @@ export default function HomePage() {
                       <li key={c.href}>
                         <Link
                           href={c.href}
-                          className="group/link flex items-center justify-between px-2.5 py-2 rounded-xl text-[#0000FF] dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 transition-all duration-150 text-[14px] font-medium"
+                          className="group/link flex items-center justify-between px-2.5 py-2 rounded-xl
+    text-[#0000FF] dark:text-[#93A8FF]
+    hover:text-[#0000CC] dark:hover:text-[#B4C2FF]
+    hover:bg-[#F8FAFF] dark:hover:bg-[#172554]
+    transition-all duration-150 text-[14px] font-medium"
                         >
                           <span className="flex items-center gap-2.5 min-w-0">
                             <i
-                              className={`fas ${c.icon} text-xs text-[#0000FF] dark:text-blue-400 group-hover/link:text-blue-700 dark:group-hover/link:text-blue-300 transition-colors flex-shrink-0`}
+                              className={`fas ${c.icon} text-xs
+        text-[#0000FF] dark:text-[#93A8FF]
+        group-hover/link:text-[#0000CC] dark:group-hover/link:text-[#B4C2FF]
+        transition-colors flex-shrink-0`}
                               aria-hidden="true"
                             />
-                            <span className="truncate underline underline-offset-2 decoration-[#0000FF]/30 dark:decoration-blue-400/40 hover:decoration-[#0000FF] dark:hover:decoration-blue-300">
+
+                            <span className="truncate hover:underline">
                               {c.name}
                             </span>
                           </span>
 
                           <i
-                            className="fas fa-chevron-right text-[10px] text-[#0000FF] dark:text-blue-400 group-hover/link:text-blue-700 dark:group-hover/link:text-blue-300 group-hover/link:translate-x-0.5 transition-all duration-150 flex-shrink-0 ml-1.5 opacity-0 group-hover/link:opacity-100"
+                            className="fas fa-chevron-right text-[10px]
+      text-[#0000FF] dark:text-[#93A8FF]
+      group-hover/link:text-[#0000CC] dark:group-hover/link:text-[#B4C2FF]
+      group-hover/link:translate-x-0.5
+      transition-all duration-150 flex-shrink-0 ml-1.5
+      opacity-0 group-hover/link:opacity-100"
                             aria-hidden="true"
                           />
                         </Link>
