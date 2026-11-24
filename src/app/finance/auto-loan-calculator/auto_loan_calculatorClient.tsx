@@ -15,7 +15,7 @@ function Label({ children, htmlFor }: LabelProps) {
   return (
     <label
       htmlFor={htmlFor}
-      className="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5"
+      className="block text-xs font-[500] tracking-wider text-slate-600 dark:text-slate-300 mb-1.5"
     >
       {children}
     </label>
@@ -69,7 +69,7 @@ function NumInput({
             const v = parseFloat(e.target.value);
             onChange(isNaN(v) ? 0 : v);
           }}
-          className={`w-full h-10.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-slate-850 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 ${
+          className={`w-full h-10.5 rounded-md border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-sm font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none transition-all duration-200 focus:bg-white dark:focus:bg-slate-850 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:focus:border-indigo-400 ${
             prefix ? "pl-8" : "pl-3.5"
           } ${suffix ? (suffix.length > 2 ? "pr-16" : "pr-10") : "pr-3.5"}`}
         />
@@ -410,9 +410,7 @@ function AmortTable({ schedule }: { schedule: AmortRow[] }) {
         </div>
       </div>
 
-      <div
-        className="overflow-x-auto max-h-[600px] overflow-y-auto mt-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm min-w-0 w-full max-w-full [-webkit-overflow-scrolling:touch]"
-      >
+      <div className="overflow-x-auto max-h-[600px] overflow-y-auto mt-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm min-w-0 w-full max-w-full [-webkit-overflow-scrolling:touch]">
         <table className="w-full border-collapse min-w-[640px] text-sm">
           <thead>
             <tr>
@@ -1078,31 +1076,31 @@ export default function AutoLoanCalculator() {
             </div>
           </div>
         </div>
-
-        <CalculatorActions
-          calculatorId="auto-loan-calculator"
-          calculatorName="Auto Loan Calculator"
-          inputData={{
-            vehiclePrice,
-            downPayment,
-            tradeInValue,
-            tradeInBalance,
-            tradeInTaxDeductible,
-            rebate,
-            salesTaxRate,
-            docFee,
-            titleFee,
-            regFee,
-            gapInsurance,
-            extWarranty,
-            apr,
-            termMonths,
-            extraMonthly,
-          }}
-          resultData={result || {}}
-          resultRef={resultRef}
-        />
       </div>
+
+      <CalculatorActions
+        calculatorId="auto-loan-calculator"
+        calculatorName="Auto Loan Calculator"
+        inputData={{
+          vehiclePrice,
+          downPayment,
+          tradeInValue,
+          tradeInBalance,
+          tradeInTaxDeductible,
+          rebate,
+          salesTaxRate,
+          docFee,
+          titleFee,
+          regFee,
+          gapInsurance,
+          extWarranty,
+          apr,
+          termMonths,
+          extraMonthly,
+        }}
+        resultData={result || {}}
+        resultRef={resultRef}
+      />
     </div>
   );
 }

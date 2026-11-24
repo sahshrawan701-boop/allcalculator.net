@@ -430,10 +430,6 @@ export default function HomePage() {
 
           {/* Right: calculator widget */}
           <div className="relative z-10 w-full max-w-[430px] sm:max-w-[480px] mx-auto lg:mx-0 lg:w-[46%] lg:min-w-[360px] lg:max-w-[500px] order-first lg:order-last">
-            <div
-              className="absolute -inset-2 bg-gradient-to-r from-indigo-500/15 via-purple-500/15 to-pink-500/15 dark:from-indigo-500/10 dark:via-purple-500/10 dark:to-pink-500/10 rounded-3xl blur-xl opacity-75 pointer-events-none"
-              aria-hidden="true"
-            />
             <div className="relative bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm rounded-2xl sm:rounded-3xl p-1.5 sm:p-2 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-900/5 dark:shadow-black/40">
               <Calculator />
             </div>

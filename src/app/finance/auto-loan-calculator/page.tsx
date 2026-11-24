@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/finance/auto-loan-calculator",
   },
-  title: "Auto Loan Calculator – Monthly Car Payment & Financing Estimator (2026)",
+  title:
+    "Auto Loan Calculator – Monthly Car Payment & Financing Estimator (2026)",
   description:
     "Free US auto loan calculator. Estimate monthly car payments, total interest, trade-in equity, dealer doc fees, and state-specific sales tax with full amortization schedule.",
   keywords:
@@ -48,7 +49,8 @@ const AUTO_LOAN_FAQS = [
       "In 42 US states, trade-in value is deducted from the vehicle purchase price before state and local sales tax is calculated. For example, if you buy a $40,000 vehicle and trade in a car worth $15,000, you only pay sales tax on the $25,000 difference. However, states like California, Virginia, Maryland, Michigan, Hawaii, Kentucky, and DC do not provide this tax credit.",
   },
   {
-    question: "What credit score do I need for the best auto loan interest rates?",
+    question:
+      "What credit score do I need for the best auto loan interest rates?",
     answer:
       "Super-Prime borrowers with FICO credit scores of 781 to 850 receive the lowest auto loan APRs (typically 5.3% to 6.5% in 2026). Prime borrowers (661-780) average 6.9% to 8.5%, while subprime borrowers (below 600) often face APRs exceeding 14% to 20%.",
   },
@@ -129,19 +131,6 @@ export default function Page() {
         {/* ——— HERO HEADER ——— */}
         <div className="relative pt-6 pb-4 border-b border-slate-100 dark:border-slate-800">
           <div className="space-y-3">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-900/60">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                2026 US Auto Financing
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                Trade-In & State Tax Support
-              </span>
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                Full Amortization Schedule
-              </span>
-            </div>
-
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
               <span className="w-10 h-10 rounded-xl bg-indigo-600 dark:bg-indigo-500 text-white flex items-center justify-center text-lg shadow-sm">
                 <i className="fas fa-car" aria-hidden="true" />
@@ -150,13 +139,19 @@ export default function Page() {
             </h1>
 
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
-              Estimate your monthly car payments, total loan interest, and true out-the-door financing costs. Factor in down payments, trade-in value, dealer documentation fees, and state-specific sales tax rules to budget your next vehicle with confidence.
+              Estimate your monthly car payments, total loan interest, and true
+              out-the-door financing costs. Factor in down payments, trade-in
+              value, dealer documentation fees, and state-specific sales tax
+              rules to budget your next vehicle with confidence.
             </p>
           </div>
         </div>
 
         {/* ——— CALCULATOR TOOL ——— */}
-        <section aria-label="Auto Loan Calculator Tool" className="w-full min-w-0">
+        <section
+          aria-label="Auto Loan Calculator Tool"
+          className="w-full min-w-0"
+        >
           <AutoLoanPage />
         </section>
 

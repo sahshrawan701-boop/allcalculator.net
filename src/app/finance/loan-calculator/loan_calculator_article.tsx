@@ -1,25 +1,15 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
 export default function LoanCalculatorArticle() {
   return (
-    <article
-      className={`w-full max-w-[75ch] mx-auto px-6 py-16 text-[18px] leading-[1.8] font-sans text-slate-800 dark:text-slate-100 ${inter.variable}`}
-    >
+    <article className="w-full max-w-[75ch] mx-auto px-6 py-16 text-[18px] leading-[1.8] font-sans text-slate-800 dark:text-slate-100">
       <style>{`
-        .article-root { font-family: var(--font-inter), sans-serif; }
-        .display-font { font-family: var(--font-inter), sans-serif; }
-        .article-root h2 { font-family: var(--font-inter), sans-serif; }
-        .article-root h3 { font-family: var(--font-inter), sans-serif; }
-        .article-root h4 { font-family: var(--font-inter), sans-serif; }
+        .article-root { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .display-font { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h2 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h3 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h4 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
 
         .dropcap::first-letter {
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 4.5rem;
           font-weight: 700;
           float: left;
@@ -110,7 +100,7 @@ export default function LoanCalculatorArticle() {
         }
         .styled-table th {
           text-align: left;
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-weight: 600;
           font-size: 0.82rem;
           text-transform: uppercase;
@@ -160,7 +150,7 @@ export default function LoanCalculatorArticle() {
           border-bottom: 1px solid #cbd5e1;
           padding: 1.5rem 2rem;
           margin: 2.5rem 0;
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 1.4rem;
           font-style: italic;
           line-height: 1.5;
@@ -179,7 +169,7 @@ export default function LoanCalculatorArticle() {
           align-items: flex-start;
         }
         .numbered-section .num {
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 1.75rem;
           font-weight: 700;
           color: #cbd5e1;
@@ -220,7 +210,7 @@ export default function LoanCalculatorArticle() {
         .meta-tag {
           display: inline-block;
           font-size: 0.72rem;
-          font-family: sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-weight: 600;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -236,7 +226,7 @@ export default function LoanCalculatorArticle() {
 
         .section-label {
           display: block;
-          font-family: sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 0.7rem;
           font-weight: 700;
           letter-spacing: 0.15em;
@@ -1232,7 +1222,7 @@ M ≈ $313.36 per month`}</pre>
             },
           ].map(({ q, a }, i) => (
             <div key={i} className="faq-item">
-              <h3>{q}</h3>
+              <h3 className="font-bold">{q}</h3>
               <p className="text-base text-slate-800 dark:text-slate-100">
                 {a}
               </p>

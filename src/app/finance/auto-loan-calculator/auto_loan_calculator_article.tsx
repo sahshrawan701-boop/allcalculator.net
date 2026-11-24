@@ -1,25 +1,17 @@
-import { Inter } from "next/font/google";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
-
 export default function AutoLoanArticle() {
   return (
     <article
-      className={`w-full max-w-[75ch] mx-auto px-6 py-16 text-[18px] leading-[1.8] font-sans text-slate-800 dark:text-slate-100 ${inter.variable}`}
+      className="w-full max-w-[75ch] mx-auto px-6 py-16 text-[18px] leading-[1.8] font-sans text-slate-800 dark:text-slate-100"
     >
       <style>{`
-        .article-root { font-family: var(--font-inter), sans-serif; }
-        .display-font { font-family: var(--font-inter), sans-serif; }
-        .article-root h2 { font-family: var(--font-inter), sans-serif; }
-        .article-root h3 { font-family: var(--font-inter), sans-serif; }
-        .article-root h4 { font-family: var(--font-inter), sans-serif; }
+        .article-root { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .display-font { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h2 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h3 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
+        .article-root h4 { font-family: var(--font-poppins), 'Poppins', sans-serif; }
 
         .dropcap::first-letter {
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 4.5rem;
           font-weight: 700;
           float: left;
@@ -105,7 +97,7 @@ export default function AutoLoanArticle() {
         .styled-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 1rem 0; }
         .styled-table th {
           text-align: left;
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-weight: 600;
           font-size: 0.82rem;
           text-transform: uppercase;
@@ -152,7 +144,7 @@ export default function AutoLoanArticle() {
           border-bottom: 1px solid #cbd5e1;
           padding: 1.5rem 2rem;
           margin: 2.5rem 0;
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 1.4rem;
           font-style: italic;
           line-height: 1.5;
@@ -163,7 +155,7 @@ export default function AutoLoanArticle() {
 
         .numbered-section { display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start; }
         .numbered-section .num {
-          font-family: var(--font-inter), sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 1.75rem;
           font-weight: 700;
           color: #cbd5e1;
@@ -204,7 +196,7 @@ export default function AutoLoanArticle() {
         .meta-tag {
           display: inline-block;
           font-size: 0.72rem;
-          font-family: sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-weight: 600;
           letter-spacing: 0.12em;
           text-transform: uppercase;
@@ -220,7 +212,7 @@ export default function AutoLoanArticle() {
 
         .section-label {
           display: block;
-          font-family: sans-serif;
+          font-family: var(--font-poppins), 'Poppins', sans-serif;
           font-size: 0.7rem;
           font-weight: 700;
           letter-spacing: 0.15em;

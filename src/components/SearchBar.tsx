@@ -208,10 +208,10 @@ export default function SearchBar({
           aria-autocomplete="list"
           aria-expanded={open}
           aria-controls="searchResultsList"
-          className={`w-full border-[1.5px] border-slate-200 dark:bg-slate-900 dark:border-slate-800 rounded-full bg-white text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-blue-600 ${
+          className={`w-full border-[1.5px] border-slate-200 dark:bg-slate-900 dark:border-slate-800 rounded-full text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:bg-white dark:focus:bg-slate-950 focus:outline-none focus:border-blue-600 ${
             variant === "hero"
-              ? "shadow-sm dark:shadow-none py-2.5 sm:py-3 pl-4 sm:pl-5 pr-12 sm:pr-14 text-sm sm:text-base"
-              : "py-2.5 pl-4 pr-10 text-sm"
+              ? "bg-white shadow-sm dark:shadow-none py-2.5 sm:py-3 pl-4 sm:pl-5 pr-12 sm:pr-14 text-sm sm:text-base"
+              : "bg-gray-100 py-2.5 pl-4 pr-10 text-sm"
           }`}
         />
         <button
